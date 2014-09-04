@@ -1,4 +1,16 @@
-(function($) {
+/*!
+ * Scrollify v1.0
+ * https://github.com/cbillowes/scrollify
+ *
+ * Copyright (c) 2014 Clarice Bouwer
+ * @cbillowes
+ * Released under the MIT license
+ * https://github.com/cbillowes/scrollify/blob/master/LICENSE
+ 
+ * Date: 2014-09-04T20:33Z
+ */
+
+ (function($) {
     $.fn.scrollify = function(options) {
         var firstElement;
         if (!options) return;
