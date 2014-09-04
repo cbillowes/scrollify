@@ -8,6 +8,7 @@ This plugin requires jquery v1.11.1 or later although it has not been tested wit
 Usage example:
 --------------
 
+```
   $(".categoryScroller").scrollify({
       activeElementClassName: 'active', 
       elementSelector: 'li',
@@ -19,5 +20,6 @@ Usage example:
           $('.content').text($activeElement.text());
       }
   });
+```
 
 This is my first jQuery plugin so it may not be perfect. All feedback is welcomed!
