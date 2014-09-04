@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head id="header">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body id="body">            
+        <div class="categoryScroller">
+            <div class="buttons">
+                <div class="left-button"></div>
+                <div class="right-button"></div>
+            </div>
+            <ul>
+                <li>I am the first category</li>
+                <li>I am category two</li>
+                <li>I am a long category three</li>
+                <li>I'm category four</li>
+                <li>I am category five</li>
+                <li>I am a long category six</li>
+                <li class="active">I'm active category seven</li>
+                <li>I am category eight</li>
+                <li>I am category nine</li>
+                <li>I am a long category ten</li>
+                <li>I'm category eleven</li>
+                <li>I am category twelve</li>
+                <li>I am a long lucky category thirteen</li>
+                <li>I'm category fourteen, the last category</li>
+            </ul>
+        </div>
+        <div class="content">
+            Some text here
+        </div>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="scrollify.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $(".categoryScroller").scrollify({
+                    activeElementClassName: 'active',
+                    elementSelector: 'li',
+                    leftButtonSelector: '.categoryScroller .left-button',
+                    rightButtonSelector: '.categoryScroller .right-button',
+                    moveAnimationDuration: 300,
+                    activateOnMove: true,
+                    activateCallback: function($activeElement) {
+                        $('.content').text($activeElement.text());
+                    }
+                });
+            });
+        </script>     
+    </body>
+</html>
