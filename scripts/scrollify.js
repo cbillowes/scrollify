@@ -46,7 +46,7 @@
 
         activate = function(element) {
             var ignoreCallback = true;
-            
+
             $(options.$scroller).find(options.activeElementSelector).removeClass(options.activeElementClassName);
             $(element).addClass(options.activeElementClassName);
             if (options.activateCallback) {
@@ -85,7 +85,7 @@
 
             $(options.$scroller).find(options.elementSelector).each(function(i) {
                 if (!foundActive && !$(this).hasClass(options.activeElementClassName)) {
-                    $(this).css({'margin-left': '-' + ($(this).outerWidth() + (scrollerLeftOffset * (i + 1))) + 'px'});
+                    animateMove($(this), {'margin-left': '-' + ($(this).outerWidth() + (scrollerLeftOffset * (i + 1))) + 'px'});
                 }
 
                 if ($(this).hasClass(options.activeElementClassName)) {
