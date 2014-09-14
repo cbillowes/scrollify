@@ -27,6 +27,10 @@
             });
             
             moveToActiveElement();
+
+            if (options.enableSwiping) {
+                enableSwiping();
+            }
         },
         getFirstElement = function() {
             var element = $(options.$scroller).find(firstElement);
@@ -86,6 +90,9 @@
                     foundActive = true;
                 } 
             });
+        },
+        enableSwiping: function() {
+
         }
 
         init();
