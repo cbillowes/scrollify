@@ -12,12 +12,15 @@
 
  (function($) {
     $.fn.scrollify = function(options) {
-        var firstElement;
+        var firstElement
+          , moveAnimationForSwipe;
+
         if (!options) return;
 
         options.$scroller = $(this);
 
         init = function() {
+            setDefaults();
             options.activeElementSelector = '.' + options.activeElementClassName;
 
             $(options.rightButtonSelector).on('click', moveRight);
@@ -29,9 +32,12 @@
             moveToActiveElement();
 
             if (options.enableSwiping) {
-                if (!options.mininumSwipeDistanceInPx) options.mininumSwipeDistanceInPx = 100;
                 enableSwiping();
             }
+        },
+        setDefaults = function () {
+            if (!options.mininumSwipeDistanceInPx) options.mininumSwipeDistanceInPx = 100;
+            if (!options.moveAnimationDurationForSwipe) options.moveAnimationDurationForSwipe = 100;
         },
         getFirstElement = function() {
             var element = $(options.$scroller).find(firstElement);
@@ -41,9 +47,9 @@
             return $(element);
         },
         animateMove = function(element, animation) {
-            $(element).animate(animation, options.moveAnimationDuration);
+            var duration = (moveAnimationForSwipe) ? options.moveAnimationDurationForSwipe : options.moveAnimationDuration;
+            $(element).animate(animation, duration);
         },
-
         activate = function(element) {
             var ignoreCallback = true;
 
@@ -116,11 +122,22 @@
                 if (Math.abs(actualSwipeDistance) < options.mininumSwipeDistanceInPx) return;
 
                 if (actualSwipeDistance > 0) {
-                    moveLeft();
+                    swipe(actualSwipeDistance, moveLeft);
                 } else {
-                    moveRight();
+                    swipe(actualSwipeDistance, moveRight);
                 }
             });
+        },
+        swipe = function(actualSwipeDistance, swipeCallback) {
+            var timesToSwipe = Math.abs(parseInt(actualSwipeDistance / options.mininumSwipeDistanceInPx, 10));
+            moveAnimationForSwipe = true;
+
+            while (timesToSwipe > 0) {
+                swipeCallback();
+                timesToSwipe -= 1;
+            }
+
+            moveAnimationForSwipe = false;
         }
 
         init();
