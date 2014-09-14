@@ -46,7 +46,9 @@
                     activateCallback: function($activeElement) {
                         $('.content').text($activeElement.text());
                     },
-                    enableSwiping: true
+                    moveActivatedToFirst: true,
+                    enableSwiping: true,
+                    mininumSwipeDistanceInPx: 100
                 });
             });
         </script>     

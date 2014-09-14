@@ -29,6 +29,7 @@
             moveToActiveElement();
 
             if (options.enableSwiping) {
+                if (!options.mininumSwipeDistanceInPx) options.mininumSwipeDistanceInPx = 100;
                 enableSwiping();
             }
         },
@@ -44,10 +45,15 @@
         },
 
         activate = function(element) {
+            var ignoreCallback = true;
+            
             $(options.$scroller).find(options.activeElementSelector).removeClass(options.activeElementClassName);
             $(element).addClass(options.activeElementClassName);
             if (options.activateCallback) {
                 options.activateCallback($(element));
+            }
+            if (options.moveActivatedToFirst) {
+                moveToActiveElement(ignoreCallback);
             }
         },
         moveLeft = function() {
@@ -73,7 +79,7 @@
                 }
             }
         },
-        moveToActiveElement = function() {
+        moveToActiveElement = function(ignoreCallback) {
             var foundActive = false;
             var scrollerLeftOffset = $(options.$scroller).offset().left;
 
@@ -84,7 +90,7 @@
 
                 if ($(this).hasClass(options.activeElementClassName)) {
                     firstElement = $(this);
-                    if (options.activateCallback) {
+                    if (options.activateCallback && !ignoreCallback) {
                         options.activateCallback($(this));
                     }
                     foundActive = true;
@@ -92,11 +98,28 @@
             });
         },
         enableSwiping = function() {
-            options.$scroller.bind('mousedown', function() { 
-                console.log('down'); 
+            var startSwipeCursorLocation;
+
+            options.$scroller
+                .attr('unselectable', 'on')
+                .on('selectstart', false);
+
+
+            options.$scroller.on('mousedown', function(evt) { 
+                startSwipeCursorLocation = evt.clientX;
             });
-            options.$scroller.bind('mouseup', function() { 
-                console.log('up'); 
+
+            options.$scroller.on('mouseup', function(evt) { 
+                var endSwipeCursorLocation = evt.clientX;
+                var actualSwipeDistance = startSwipeCursorLocation - endSwipeCursorLocation;
+
+                if (Math.abs(actualSwipeDistance) < options.mininumSwipeDistanceInPx) return;
+
+                if (actualSwipeDistance > 0) {
+                    moveLeft();
+                } else {
+                    moveRight();
+                }
             });
         }
 
